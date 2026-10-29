@@ -15,17 +15,18 @@ npm run dev        # http://localhost:3000
 
 ## Scripts
 
-| Script                 | What it does                                                                                                                                                                      |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`          | Development server with hot reload.                                                                                                                                               |
-| `npm run build`        | Static export to `out/`. Runs `postbuild` automatically.                                                                                                                          |
-| `postbuild`            | `scripts/fix-export-segments.mjs` (flattens prefetch files Next.js nests on Windows), then `scripts/generate-image-variants.mjs` (writes the resized photos the pages reference). |
-| `npm run preview`      | Serves `out/` locally with `npx serve@14` (not a project dependency).                                                                                                             |
-| `npm run lint`         | ESLint (`eslint-config-next`, core web vitals + TypeScript).                                                                                                                      |
-| `npm run typecheck`    | `next typegen` (route types such as `PageProps`) then `tsc --noEmit`.                                                                                                             |
-| `npm run format`       | Prettier, write.                                                                                                                                                                  |
-| `npm run format:check` | Prettier, check only.                                                                                                                                                             |
-| `npm run check`        | `typecheck` + `lint` + `format:check`. CI runs this.                                                                                                                              |
+| Script                 | What it does                                                                                                                                                                     |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`          | Development server with hot reload.                                                                                                                                              |
+| `npm run build`        | Static export to `out/`. Runs `postbuild` automatically.                                                                                                                         |
+| `postbuild`            | `scripts/fix-export-segments.mjs`: flattens prefetch files that Next.js nests on Windows (see the file).                                                                         |
+| `npm run images`       | Writes resized copies of `src/assets/images/*` to `public/images/` (`-- --check` only verifies; `check` runs it). Run after adding or replacing an image, and commit the output. |
+| `npm run preview`      | Serves `out/` locally with `npx serve@14` (not a project dependency).                                                                                                            |
+| `npm run lint`         | ESLint (`eslint-config-next`, core web vitals + TypeScript).                                                                                                                     |
+| `npm run typecheck`    | `next typegen` (route types such as `PageProps`) then `tsc --noEmit`.                                                                                                            |
+| `npm run format`       | Prettier, write.                                                                                                                                                                 |
+| `npm run format:check` | Prettier, check only.                                                                                                                                                            |
+| `npm run check`        | `typecheck` + `lint` + `format:check`. CI runs this.                                                                                                                             |
 
 ## Structure
 
@@ -49,6 +50,7 @@ src/
                   then enhancements/ (polish.css, motion.css) last
   assets/         images/ and fonts/ (static imports)
 scripts/          fix-export-segments.mjs, generate-image-variants.mjs
+public/images/    resized photo and logo variants (generated, committed)
 docs/             content-sources.md (provenance), verification.md (migration parity results)
 ```
 
@@ -59,7 +61,7 @@ docs/             content-sources.md (provenance), verification.md (migration pa
 - **CSS is global and class-based**, split into partials under `src/styles/`. The import order in `globals.css` matters: rules of equal specificity depend on it. Fonts are referenced through `var(--font)` / `var(--font-serif)`, never by family name.
 - **Text nodes:** where literal text sits next to an interpolation, render one template string (`{`Call ${phone}`}`) so the DOM has one text node. Lines broken with `<br>` keep a leading space on the next line (see `ui/Lines.tsx`), because some breakpoints hide the `<br>`.
 - **Links:** use `SmartLink`/`ButtonLink`/`TextLink`. Internal paths go through `next/link`; `tel:`, `mailto:`, `#` and external URLs stay plain anchors.
-- **Images:** `next/image` with static imports and a `sizes` hint. The above-the-fold image on each page gets `loading="eager" fetchPriority="high"`. A static export has no image server, so `src/lib/image-loader.ts` points each `srcset` width at `photo.<hash>.w<width>.webp`, and the postbuild script generates exactly those files with sharp (never enlarging). In `next dev` the loader returns the original file.
+- **Images:** `next/image` with static imports and a `sizes` hint. The above-the-fold image on each page gets `loading="eager" fetchPriority="high"`. A static export has no image server, so `src/lib/image-loader.ts` points each `srcset` width at a committed file, `public/images/<name>-w<width>.webp`, generated by `npm run images` (never enlarging). They are plain public files on purpose: hosts such as Vercel deploy Next.js’s own build output, so files written into `out/` after the build would not ship. In `next dev` the loader returns the original file.
 - **Motion** lives in `src/styles/enhancements/motion.css`, inside `@media (prefers-reduced-motion: no-preference)`, so visitors who ask for less motion get a static page. Scroll reveal is added by `ScrollEffects` only after it runs: without JavaScript every block is visible. To reveal a new block on scroll, add its selector to the `REVEAL` list in `ScrollEffects.tsx`.
 
 ## Google reviews

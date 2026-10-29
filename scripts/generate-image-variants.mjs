@@ -1,27 +1,23 @@
-// Generates the resized images that src/lib/image-loader.ts points at.
-// Scans the exported HTML and RSC payloads in out/ for "<file>.w<width>.<ext>" references
-// under /_next/static/ (Next writes media to /_next/static/media/ locally and to
-// /_next/static/immutable/media/ on some hosts, e.g. Vercel) and writes each one from its
-// original, never enlarging past the source width. Fails the build if an original is missing,
-// so a broken image can never ship silently.
-import { readdir, readFile, stat } from "node:fs/promises";
+// Writes the resized copies of every image in src/assets/images/ to public/images/,
+// one per width in src/lib/image-widths.json: photo.webp -> public/images/photo-w720.webp.
+// src/lib/image-loader.ts points next/image at these files. They are committed, so any
+// static host serves them as-is, whatever it does with the build output.
+//
+//   npm run images             regenerate (run after adding or replacing an image)
+//   npm run images -- --check  fail if any variant is missing (`npm run check` runs this)
+import { mkdir, readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
-const OUT_DIR = path.resolve("out");
-const VARIANT =
-  /(\/_next\/static\/[^"'\s,)\\]+?)\.w(\d+)\.(webp|png|jpe?g|avif)/gi;
-
-async function listFiles(dir) {
-  const entries = await readdir(dir, { withFileTypes: true });
-  const nested = await Promise.all(
-    entries.map((e) => {
-      const p = path.join(dir, e.name);
-      return e.isDirectory() ? listFiles(p) : [p];
-    }),
-  );
-  return nested.flat();
-}
+const SRC = path.resolve("src/assets/images");
+const OUT = path.resolve("public/images");
+const { deviceSizes, imageSizes } = JSON.parse(
+  await readFile(path.resolve("src/lib/image-widths.json"), "utf8"),
+);
+const widths = [...new Set([...imageSizes, ...deviceSizes])].sort(
+  (a, b) => a - b,
+);
+const checkOnly = process.argv.includes("--check");
 
 const exists = (p) =>
   stat(p).then(
@@ -29,67 +25,41 @@ const exists = (p) =>
     () => false,
   );
 
-const wanted = new Map(); // variant url path -> { original, width }
-for (const file of await listFiles(OUT_DIR)) {
-  if (!/\.(html|txt)$/.test(file)) continue;
-  const text = await readFile(file, "utf8");
-  for (const [, base, width, ext] of text.matchAll(VARIANT)) {
-    wanted.set(`${base}.w${width}.${ext}`, {
-      original: `${base}.${ext}`,
-      width: Number(width),
-    });
-  }
-}
-
+await mkdir(OUT, { recursive: true });
+const images = (await readdir(SRC)).filter((f) =>
+  /\.(webp|png|jpe?g)$/i.test(f),
+);
 const missing = [];
 let written = 0;
-for (const [variant, { original, width }] of wanted) {
-  // The file may sit at the referenced path or, on hosts that remap /_next/static/immutable/
-  // at deploy time, at the plain /_next/static/ path. Write the variant beside whichever exists.
-  const candidates = [
-    original,
-    original.replace("/_next/static/immutable/", "/_next/static/"),
-  ];
-  let found = null;
-  for (const c of candidates)
-    if (await exists(path.join(OUT_DIR, c))) {
-      found = c;
-      break;
+for (const file of images) {
+  const { name, ext } = path.parse(file);
+  for (const width of widths) {
+    const target = path.join(OUT, `${name}-w${width}${ext.toLowerCase()}`);
+    if (await exists(target)) continue;
+    if (checkOnly) {
+      missing.push(path.relative(process.cwd(), target));
+      continue;
     }
-  if (!found) {
-    missing.push(original);
-    continue;
+    const image = sharp(path.join(SRC, file)).resize({
+      width,
+      withoutEnlargement: true,
+    });
+    if (ext === ".webp") image.webp({ quality: 78, effort: 5 });
+    else if (ext === ".png") image.png({ compressionLevel: 9 });
+    else image.jpeg({ quality: 80, mozjpeg: true });
+    await image.toFile(target);
+    written++;
   }
-  const source = path.join(OUT_DIR, found);
-  const target = path.join(
-    OUT_DIR,
-    found === original
-      ? variant
-      : variant.replace("/_next/static/immutable/", "/_next/static/"),
-  );
-  if (await exists(target)) continue;
-  const image = sharp(source).resize({ width, withoutEnlargement: true });
-  const ext = path.extname(original).toLowerCase();
-  if (ext === ".webp") image.webp({ quality: 78, effort: 5 });
-  else if (ext === ".png") image.png({ compressionLevel: 9 });
-  else if (ext === ".avif") image.avif({ quality: 60 });
-  else image.jpeg({ quality: 80, mozjpeg: true });
-  await image.toFile(target);
-  written++;
 }
 
 if (missing.length) {
   console.error(
-    `Image originals not found in out/:\n  ${[...new Set(missing)].join("\n  ")}`,
-  );
-  process.exit(1);
-}
-if (wanted.size === 0) {
-  console.error(
-    "No resized image references found in out/. Is src/lib/image-loader.ts in use?",
+    `Missing image variants (run \`npm run images\`):\n  ${missing.join("\n  ")}`,
   );
   process.exit(1);
 }
 console.log(
-  `Generated ${written} image variants (${wanted.size} referenced) in out/`,
+  checkOnly
+    ? `All ${images.length * widths.length} image variants present.`
+    : `Wrote ${written} image variants for ${images.length} images to public/images/.`,
 );

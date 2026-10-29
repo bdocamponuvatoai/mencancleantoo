@@ -1,8 +1,8 @@
 "use client";
 
-// Static export has no image server, so each width is a pre-built file next to the
-// original: /_next/static/media/photo.<hash>.webp -> photo.<hash>.w640.webp.
-// scripts/generate-image-variants.mjs creates every variant the exported pages reference.
+// Static export has no image server, so every width is a pre-built file in public/images/:
+// a static import such as /_next/static/media/photo.<hash>.webp maps to /images/photo-w720.webp.
+// scripts/generate-image-variants.mjs creates them (`npm run images`).
 export default function imageLoader({
   src,
   width,
@@ -11,5 +11,7 @@ export default function imageLoader({
   width: number;
 }) {
   if (process.env.NODE_ENV === "development") return src;
-  return src.replace(/(\.[a-z0-9]+)$/i, `.w${width}$1`);
+  const match = src.match(/\/media\/([^/.]+)\.[^/]+?(\.[a-z0-9]+)$/i);
+  if (!match) return src;
+  return `/images/${match[1]}-w${width}${match[2].toLowerCase()}`;
 }
