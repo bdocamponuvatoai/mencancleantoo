@@ -1,0 +1,48 @@
+.benefit-strip {
+  background: var(--green);
+  padding: 23px 0;
+}
+.benefit-strip > .container {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+.benefit-strip span {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 11px;
+  font-weight: 650;
+}
+.benefit-strip .spark {
+  width: 19px;
+  height: 19px;
+  color: #737e60;
+}
+@media (max-width: 900px) {
+  .benefit-strip span {
+    font-size: 9px;
+    gap: 8px;
+  }
+  .benefit-strip .spark {
+    width: 16px;
+  }
+}
+@media (max-width: 700px) {
+  .benefit-strip {
+    padding: 17px 0;
+  }
+  .benefit-strip > .container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 24px;
+  }
+  .benefit-strip span {
+    font-size: 9px;
+    gap: 7px;
+  }
+  .benefit-strip .spark {
+    width: 13px;
+    height: 13px;
+  }
+}

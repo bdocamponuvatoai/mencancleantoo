@@ -1,0 +1,154 @@
+.detail-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 65px;
+  align-items: center;
+  padding-block: 50px;
+}
+.breadcrumb {
+  font-size: 11px;
+  display: inline-block;
+  margin-bottom: 40px;
+  color: var(--muted);
+}
+.detail-hero h1 {
+  font-size: clamp(40px, 4.4vw, 64px);
+}
+.detail-hero .lead {
+  font-size: 14px;
+  max-width: 500px;
+  line-height: 1.9;
+}
+.detail-hero .small {
+  margin: 18px 0 0;
+}
+.detail-photo {
+  position: relative;
+  min-width: 0;
+}
+.detail-photo > img {
+  width: 100%;
+  height: 510px;
+  object-fit: cover;
+  border-radius: 130px 20px 20px 20px;
+  object-position: 60% center;
+}
+.detail-photo > span {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  padding: 14px;
+  background: #faf8f4ef;
+  border-radius: 8px;
+  font-size: 12px;
+  text-align: center;
+}
+.detail-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 85px;
+  align-items: center;
+}
+.detail-content h2 {
+  font-size: 45px;
+}
+.detail-content > div > p:not(.eyebrow) {
+  font-size: 13px;
+  line-height: 1.9;
+}
+.scope-card {
+  background: var(--green);
+  padding: 35px;
+  border-radius: 20px;
+}
+.scope-card h3 {
+  font-size: 23px;
+}
+.checklist {
+  padding: 0;
+  list-style: none;
+  margin: 26px 0;
+}
+.checklist li {
+  position: relative;
+  padding: 13px 0 13px 30px;
+  border-top: 1px solid #cdd4c4;
+  font-size: 13px;
+}
+.checklist li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #53623d;
+}
+.scope-card .small {
+  font-size: 11px !important;
+  margin-bottom: 0;
+}
+@media (max-width: 900px) {
+  .detail-hero {
+    gap: 35px;
+  }
+  .detail-hero h1 {
+    font-size: 44px;
+  }
+  .detail-photo > img {
+    height: 480px;
+  }
+  .detail-content {
+    gap: 40px;
+  }
+  .detail-content h2 {
+    font-size: 37px;
+  }
+  .scope-card {
+    padding: 25px;
+  }
+}
+@media (max-width: 700px) {
+  .detail-hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 30px;
+  }
+  .breadcrumb {
+    margin-bottom: 25px;
+    font-size: 10px;
+  }
+  .detail-hero .eyebrow {
+    margin-bottom: 18px;
+  }
+  .detail-hero h1 {
+    font-size: 43px;
+  }
+  .detail-hero .lead {
+    font-size: 13px;
+  }
+  .detail-photo > img {
+    height: 380px;
+    border-radius: 90px 15px 15px 15px;
+  }
+  .detail-photo > span {
+    font-size: 11px;
+    bottom: 18px;
+    left: 18px;
+    right: 18px;
+  }
+  .detail-content {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .detail-content h2 {
+    font-size: 36px;
+  }
+  .detail-content > div > p:not(.eyebrow) {
+    font-size: 12px;
+  }
+  .scope-card {
+    padding: 25px;
+  }
+  .checklist li {
+    font-size: 12px;
+  }
+}

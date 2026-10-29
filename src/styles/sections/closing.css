@@ -1,0 +1,160 @@
+.closing {
+  background: var(--peach);
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 60px 64px;
+  margin-bottom: 100px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.closing > div > .spark {
+  width: 35px;
+  height: 35px;
+  color: var(--orange-dark);
+  margin-bottom: 25px;
+}
+.closing .eyebrow {
+  margin-bottom: 14px;
+}
+.closing h2 {
+  font-size: 59px;
+  margin-bottom: 20px;
+}
+.closing p:not(.eyebrow) {
+  font-size: 13px;
+}
+.closing-art {
+  height: 320px;
+  position: relative;
+  margin-left: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.closing-art > span {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  background: #ffad79;
+  transform: rotate(-12deg);
+  position: absolute;
+  left: 0;
+  top: 10px;
+}
+.closing-art > span:nth-child(2) {
+  left: 113px;
+  top: 146px;
+  background: #b9c5a5;
+  transform: rotate(12deg);
+}
+.closing-art em {
+  color: var(--ink);
+  font-size: 36px;
+}
+.closing-art > .spark {
+  position: absolute;
+  width: 85px !important;
+  height: 85px !important;
+  right: 5px;
+  top: 5px;
+  color: var(--orange-dark);
+  transform: rotate(15deg);
+}
+@media (max-width: 1180px) {
+  .closing-art {
+    margin-left: 10px;
+  }
+}
+@media (max-width: 900px) {
+  .closing {
+    padding: 45px 35px;
+    margin-bottom: 80px;
+  }
+  .closing h2 {
+    font-size: 47px;
+  }
+  .closing-art > span {
+    width: 140px;
+    height: 140px;
+    font-size: 20px;
+    left: 0;
+    top: 35px;
+  }
+  .closing-art > span:nth-child(2) {
+    left: 80px;
+    top: 155px;
+  }
+  .closing-art > .spark {
+    width: 55px !important;
+    height: 55px !important;
+  }
+  .closing-art em {
+    font-size: 32px;
+  }
+}
+@media (max-width: 700px) {
+  .closing {
+    grid-template-columns: 1fr;
+    padding: 35px 28px;
+    margin-bottom: 60px;
+  }
+  .closing h2 {
+    font-size: 44px;
+  }
+  .closing p:not(.eyebrow) {
+    font-size: 12px;
+  }
+  .closing .eyebrow {
+    font-size: 8px;
+  }
+  .closing-art {
+    height: 220px;
+    margin: 25px auto 0;
+    width: 250px;
+  }
+  .closing-art > span {
+    width: 120px;
+    height: 120px;
+    top: 0;
+    font-size: 17px;
+    left: 0;
+  }
+  .closing-art > span:nth-child(2) {
+    left: 112px;
+    top: 88px;
+  }
+  .closing-art em {
+    font-size: 29px;
+  }
+  .closing-art > .spark {
+    right: 13px;
+    top: 0;
+    width: 45px !important;
+    height: 45px !important;
+  }
+  .closing > div > .spark {
+    height: 28px;
+    width: 28px;
+    margin-bottom: 20px;
+  }
+}
+@media (max-width: 360px) {
+  .closing {
+    padding: 30px 23px;
+  }
+  .closing h2 {
+    font-size: 40px;
+  }
+  .closing-art {
+    width: 230px;
+  }
+}

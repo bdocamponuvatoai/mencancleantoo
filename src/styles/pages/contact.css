@@ -1,0 +1,123 @@
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+.contact-card {
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  transition: background 0.2s;
+}
+.contact-card:hover {
+  background: var(--peach);
+}
+.contact-card:nth-child(1) {
+  background: var(--peach);
+  border-color: var(--peach);
+}
+.contact-card h2 {
+  font-size: 28px;
+  letter-spacing: -0.04em;
+  margin-bottom: 17px;
+}
+.contact-card p:not(.eyebrow) {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  margin-bottom: 0;
+}
+.contact-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 32px;
+}
+.contact-card .eyebrow {
+  font-size: 9px;
+  margin-bottom: 12px;
+}
+.location-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 90px;
+  align-items: center;
+}
+.location-section > div > p:not(.eyebrow) {
+  font-size: 13px;
+  max-width: 460px;
+}
+.city-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 30px;
+}
+.city-tags span {
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 8px 15px;
+  font-size: 11px;
+}
+.location-card {
+  background: var(--green);
+  padding: 45px;
+  border-radius: 25px;
+}
+.location-card > .spark {
+  width: 45px;
+  height: 45px;
+  color: #687554;
+  margin-bottom: 30px;
+}
+.location-card h3 {
+  font-size: 27px;
+}
+@media (max-width: 900px) {
+  .contact-card {
+    padding: 24px;
+  }
+  .contact-card h2 {
+    font-size: 23px;
+  }
+  .location-section {
+    gap: 45px;
+  }
+}
+@media (max-width: 700px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .contact-card {
+    padding: 26px;
+    position: relative;
+  }
+  .contact-icon {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    font-size: 25px;
+    margin: 0;
+  }
+  .contact-card h2 {
+    font-size: 29px;
+  }
+  .contact-card p:not(.eyebrow) {
+    font-size: 12px;
+  }
+  .contact-card .eyebrow {
+    margin-right: 35px;
+  }
+  .location-section {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .location-section h2 {
+    font-size: 40px;
+  }
+  .location-card {
+    padding: 30px;
+  }
+  .location-section > div > p:not(.eyebrow) {
+    font-size: 12px;
+  }
+}

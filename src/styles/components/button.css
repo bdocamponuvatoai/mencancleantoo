@@ -1,0 +1,33 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 16px 23px;
+  background: var(--orange);
+  color: var(--ink);
+  border: 1px solid var(--orange);
+  border-radius: 7px;
+  font-weight: 750;
+  font-size: 12px;
+  line-height: 1.5;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+  min-height: 52px;
+}
+.button > span {
+  font-size: 18px;
+  line-height: 1;
+}
+.button:hover {
+  background: #ff9e61;
+  transform: translateY(-2px);
+}
+.button.secondary {
+  background: transparent;
+  border-color: #c8cdc4;
+}
+.button.secondary:hover {
+  background: #efede6;
+}

@@ -1,0 +1,15 @@
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: 750;
+  border-bottom: 1px solid currentColor;
+  padding: 0 0 7px;
+}
+.text-link span {
+  font-size: 19px;
+}
+.text-link:hover {
+  color: var(--orange-dark);
+}
