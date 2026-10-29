@@ -52,6 +52,7 @@ export default async function ServicePage({
         <div className="detail-photo">
           <Image
             src={service.image}
+            sizes="(max-width: 700px) calc(100vw - 40px), 50vw"
             alt={service.alt}
             loading="eager"
             fetchPriority="high"

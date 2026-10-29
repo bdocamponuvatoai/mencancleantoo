@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { ScrollEffects } from "@/components/layout/ScrollEffects";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { isIndexable, siteUrl } from "@/config/deployment";
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main">{children}</main>
         <SiteFooter />
         <JsonLd data={businessJsonLd} />
+        <ScrollEffects />
       </body>
     </html>
   );

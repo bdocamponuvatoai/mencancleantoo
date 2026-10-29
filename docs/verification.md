@@ -121,3 +121,25 @@ Re-verification against the original build:
 
 - Only Chrome on Windows, at emulated widths. No Safari, Firefox, or real iOS/Android devices were tested.
 - No screen-reader testing beyond the ARIA attributes compared above.
+
+## Redesign (branch `redesign`), 2026-10-30
+
+The owner-facing look was deliberately changed after the migration ("elevated, same brand"), so pixel parity with the original no longer applies. What was re-verified:
+
+- **Functional behaviour is unchanged.** The behaviour suite above was run again against the original build. Every JSON outcome is identical, including the plan builder, the exact `mailto:` href and the download file. The only differences are accepted differences 3 and 4. There are 0 console errors. State screenshots now differ by design.
+- **Navigation:** 40 / 40 checks pass, with 0 responses ≥ 400 and 0 console errors or warnings.
+- **Layout sanity:** every route was captured at 1440 and 390 px with motion on. The page width equals the viewport (no sideways scroll), every scroll-reveal block ends up visible, and there are 0 console errors.
+- **Reduced motion:** all animation is inside `@media (prefers-reduced-motion: no-preference)`. Scroll reveal is only armed by JavaScript, so content is visible without it.
+- **Reviews:** the section renders nothing while `src/content/reviews.ts` is empty. Its layout was checked with clearly labelled dummy entries in a temporary build that was not committed.
+- `npm run check`, `npm run build` and `npm audit` all pass.
+
+Lighthouse 13.6.0, mobile preset (simulated throttling), headless Chrome 156, production build served locally with `serve` 14, 3 runs per page:
+
+| Page                  | Performance | Accessibility | Best practices | SEO | Largest paint | Weight      |
+| --------------------- | ----------- | ------------- | -------------- | --- | ------------- | ----------- |
+| Home, before redesign | 86          | 96            | 100            | 69  | 4.2 s         | 1,036 KiB   |
+| Home, redesign        | 93–96       | 100           | 100            | 69  | 2.8–3.1 s     | 400 KiB     |
+| Plan, before redesign | 99–100      | 96            | 100            | 69  | 0.8 s         | 228 KiB     |
+| Plan, redesign        | 98–100      | 100           | 100            | 69  | 0.8 s         | 226–228 KiB |
+
+The gains come from phone-sized photo variants (`generate-image-variants.mjs`) and darker muted text (contrast). SEO is 69 only because of the deliberate `noindex`, which fails the "page is crawlable" audit.

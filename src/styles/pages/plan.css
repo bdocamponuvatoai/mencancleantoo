@@ -33,7 +33,7 @@
   display: flex;
   gap: 15px;
   align-items: center;
-  color: #7b817b;
+  color: var(--muted);
   font-size: 13px;
   margin-bottom: 22px;
 }

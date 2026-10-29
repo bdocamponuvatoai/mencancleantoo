@@ -1,48 +1,72 @@
 .benefit-strip {
   background: var(--green);
-  padding: 23px 0;
+  padding: 24px 0;
+  overflow: hidden;
+  border-block: 1px solid #d5dccd;
 }
-.benefit-strip > .container {
+.benefit-track {
   display: flex;
-  justify-content: space-between;
-  gap: 24px;
+  width: max-content;
+  animation: benefit-marquee 48s linear infinite;
 }
-.benefit-strip span {
+.benefit-strip:hover .benefit-track {
+  animation-play-state: paused;
+}
+.benefit-set {
+  display: flex;
+  flex-shrink: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.benefit-set li {
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-size: 11px;
+  gap: 18px;
+  padding-inline: 34px;
+  font-size: 15px;
   font-weight: 650;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 .benefit-strip .spark {
-  width: 19px;
-  height: 19px;
-  color: #737e60;
+  width: 20px;
+  height: 20px;
+  color: #6d7a5a;
 }
-@media (max-width: 900px) {
-  .benefit-strip span {
-    font-size: 9px;
-    gap: 8px;
-  }
-  .benefit-strip .spark {
-    width: 16px;
+@keyframes benefit-marquee {
+  to {
+    transform: translateX(-50%);
   }
 }
 @media (max-width: 700px) {
   .benefit-strip {
     padding: 17px 0;
   }
-  .benefit-strip > .container {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px 24px;
-  }
-  .benefit-strip span {
-    font-size: 9px;
-    gap: 7px;
+  .benefit-set li {
+    gap: 12px;
+    padding-inline: 22px;
+    font-size: 12px;
   }
   .benefit-strip .spark {
-    width: 13px;
-    height: 13px;
+    width: 14px;
+    height: 14px;
+  }
+}
+/* Without motion: one static, centred set. */
+@media (prefers-reduced-motion: reduce) {
+  .benefit-track {
+    width: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .benefit-set {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 10px;
+  }
+  .benefit-set[aria-hidden],
+  .benefit-set li:nth-child(n + 5) {
+    display: none;
   }
 }
