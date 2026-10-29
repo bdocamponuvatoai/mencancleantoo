@@ -17,11 +17,13 @@ export function BeforeAfter() {
       >
         <Image
           src={stoveAfter}
+          sizes="(max-width: 700px) calc(100vw - 40px), 45vw"
           alt="Stovetop drip pan after cleaning by Men Can Clean Too"
         />
         <Image
           className="before-image"
           src={stoveBefore}
+          sizes="(max-width: 700px) calc(100vw - 40px), 45vw"
           alt="The stovetop drip pan before cleaning"
         />
         <span className="before-tag">Before</span>

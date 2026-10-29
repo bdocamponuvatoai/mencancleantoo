@@ -12,7 +12,11 @@ export function ServiceCard({
   return (
     <Link className="service-card" href={`/services/${service.slug}/`}>
       <div className="card-photo">
-        <Image src={service.image} alt={service.alt} />
+        <Image
+          src={service.image}
+          alt={service.alt}
+          sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1280px) 33vw, 420px"
+        />
         <span className="card-number">{`0${number}`}</span>
         <span className="round-arrow" aria-hidden="true">
           ↗

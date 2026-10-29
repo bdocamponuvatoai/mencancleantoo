@@ -33,6 +33,7 @@ export default function AboutPage() {
         <div className="about-photo">
           <Image
             src={freshHome}
+            sizes="(max-width: 700px) calc(100vw - 40px), 50vw"
             alt="A peaceful, bright living room with comfortable natural finishes"
             loading="eager"
             fetchPriority="high"

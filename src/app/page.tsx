@@ -5,6 +5,7 @@ import workplaceCleaning from "@/assets/images/workplace-cleaning.webp";
 import { BeforeAfter } from "@/components/home/BeforeAfter";
 import { Finder } from "@/components/home/Finder";
 import { ClosingCta } from "@/components/sections/ClosingCta";
+import { Reviews } from "@/components/sections/Reviews";
 import { ServiceCard } from "@/components/sections/ServiceCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Arrow, Spark } from "@/components/ui/Icon";
@@ -19,6 +20,13 @@ export const metadata = pageMetadata({
   description:
     "Thoughtful home and business cleaning in Springfield, Missouri. Explore services, build a cleaning plan and connect with Men Can Clean Too.",
 });
+
+const benefits = [
+  "Home & business cleaning",
+  "One-time or a regular routine",
+  "Built around your priorities",
+  "Springfield & the Ozarks",
+];
 
 const steps = [
   {
@@ -78,6 +86,7 @@ export default function HomePage() {
           <Image
             className="hero-img"
             src={homeCleaning}
+            sizes="(max-width: 700px) calc(100vw - 40px), 50vw"
             alt="Cleaner bringing careful attention to a bright home kitchen"
             loading="eager"
             fetchPriority="high"
@@ -99,20 +108,23 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Two identical sets scroll as one loop; the copy is hidden from assistive tech. */}
       <div className="benefit-strip">
-        <div className="container">
-          <span>
-            <Spark />
-            {" Home & business cleaning"}
-          </span>
-          <span>
-            <Spark />
-            {" One-time or a regular routine"}
-          </span>
-          <span>
-            <Spark />
-            {" Built around your priorities"}
-          </span>
+        <div className="benefit-track">
+          {[false, true].map((copy) => (
+            <ul
+              key={String(copy)}
+              className="benefit-set"
+              aria-hidden={copy || undefined}
+            >
+              {[...benefits, ...benefits].map((benefit, i) => (
+                <li key={i}>
+                  <Spark />
+                  {` ${benefit}`}
+                </li>
+              ))}
+            </ul>
+          ))}
         </div>
       </div>
 
@@ -173,6 +185,7 @@ export default function HomePage() {
         <div className="commercial-image">
           <Image
             src={workplaceCleaning}
+            sizes="(max-width: 700px) calc(100vw - 40px), 55vw"
             alt="Cleaning technician wiping a glass partition in a bright office"
           />
         </div>
@@ -224,6 +237,8 @@ export default function HomePage() {
           <BeforeAfter />
         </div>
       </section>
+
+      <Reviews />
 
       <section className="container section">
         <div className="section-heading">

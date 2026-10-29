@@ -6,6 +6,10 @@ export function SiteFooter() {
   return (
     <>
       <footer className="site-footer">
+        <p className="container footer-statement">
+          {"A little clean. "}
+          <em>A lot more life.</em>
+        </p>
         <div className="container footer-grid">
           <div className="footer-brand">
             <Brand variant="footer" />

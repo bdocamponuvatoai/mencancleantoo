@@ -1,0 +1,140 @@
+/* Motion. Everything here is skipped for visitors who ask for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Page openers animate on load (and on every client-side navigation). */
+  /* Starts at 1% rather than 0 so the browser counts the text as painted (largest-paint timing). */
+  @keyframes rise-in {
+    from {
+      opacity: 0.01;
+      transform: translateY(22px);
+    }
+  }
+  @keyframes settle-in {
+    from {
+      transform: scale(1.06);
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: rotate(-30deg) scale(0.6);
+    }
+  }
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(-18px);
+    }
+  }
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+  @keyframes float {
+    50% {
+      translate: 0 -10px;
+    }
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 #ff8a4366;
+    }
+    60% {
+      box-shadow: 0 0 0 8px #ff8a4300;
+    }
+  }
+
+  .hero-copy > *,
+  .page-intro > *,
+  .planner-intro > *,
+  .detail-hero > div:first-child > * {
+    animation: rise-in 0.8s var(--ease-out) both;
+  }
+  .hero-copy > :nth-child(2),
+  .page-intro > :nth-child(2),
+  .planner-intro > :nth-child(2),
+  .detail-hero > div:first-child > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .hero-copy > :nth-child(3),
+  .page-intro > :nth-child(3),
+  .planner-intro > :nth-child(3),
+  .detail-hero > div:first-child > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .hero-copy > :nth-child(4),
+  .page-intro > :nth-child(4),
+  .detail-hero > div:first-child > :nth-child(4) {
+    animation-delay: 0.24s;
+  }
+  .hero-copy > :nth-child(n + 5),
+  .detail-hero > div:first-child > :nth-child(n + 5) {
+    animation-delay: 0.32s;
+  }
+
+  /* Photographs settle rather than fade, so they paint immediately. */
+  .hero-visual,
+  .detail-photo {
+    overflow: visible;
+  }
+  .hero-img,
+  .detail-photo > img {
+    animation: settle-in 1.4s var(--ease-out) both;
+  }
+  .hero-stamp {
+    animation: pop-in 0.9s 0.45s var(--ease-out) both;
+  }
+  .hero-stamp .spark {
+    animation: spin 14s linear infinite;
+  }
+  .hero-label {
+    animation: slide-in 0.8s 0.6s var(--ease-out) both;
+  }
+  .status-dot {
+    animation: pulse 2.4s 1s infinite;
+  }
+
+  .closing-art > span {
+    animation: float 6s ease-in-out infinite;
+  }
+  .closing-art > span:nth-child(2) {
+    animation-delay: -3s;
+  }
+  .closing-art > .spark {
+    animation: spin 24s linear infinite;
+  }
+
+  /* Scroll reveal: ScrollEffects marks blocks [data-reveal] and [data-revealed]. */
+  html[data-motion] [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  html[data-motion] [data-reveal] {
+    transition:
+      opacity 0.9s var(--ease-out),
+      transform 0.9s var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  /* Cards keep their own hover transforms once revealed. */
+  html[data-motion] .service-card[data-revealed],
+  html[data-motion] .contact-card[data-revealed],
+  html[data-motion] .review-card[data-revealed] {
+    transition-delay: 0ms;
+  }
+
+  /* FAQ answers open smoothly where the browser supports it. */
+  .faq-list details {
+    interpolate-size: allow-keywords;
+  }
+  .faq-list details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.45s var(--ease-out),
+      content-visibility 0.45s allow-discrete;
+  }
+  .faq-list details[open]::details-content {
+    block-size: auto;
+  }
+}

@@ -1,0 +1,150 @@
+.reviews-section {
+  padding-block: 112px 40px;
+}
+.reviews-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  margin-bottom: 44px;
+}
+.reviews-head h2 {
+  margin: 0;
+}
+.reviews-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+.reviews-score {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 12px;
+}
+.reviews-score strong {
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+}
+.stars {
+  display: inline-flex;
+  gap: 2px;
+}
+.stars svg {
+  width: 16px;
+  height: 16px;
+  fill: #d9d6cc;
+}
+.stars svg.on {
+  fill: var(--orange);
+}
+/* Masonry columns: cards of different lengths pack without ragged rows. */
+.reviews-track {
+  columns: 3;
+  column-gap: 22px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.review-card {
+  break-inside: avoid;
+  margin-bottom: 22px;
+  background: #fff;
+  border: 1px solid #e6e7df;
+  border-radius: 20px;
+  padding: 30px 30px 26px;
+  box-shadow: 0 1px 0 #27312b08;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.35s;
+}
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 40px -28px #27312b4d;
+}
+.review-card blockquote {
+  margin: 20px 0 24px;
+  position: relative;
+}
+.review-card blockquote::before {
+  content: "“";
+  position: absolute;
+  top: -30px;
+  right: -6px;
+  font-family: var(--font-serif);
+  font-size: 90px;
+  line-height: 1;
+  color: var(--peach);
+  pointer-events: none;
+}
+.review-card blockquote p {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--ink);
+  margin: 0;
+  position: relative;
+}
+.review-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+.review-meta strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+.review-meta span {
+  font-size: 11px;
+}
+@media (max-width: 900px) {
+  .reviews-section {
+    padding-block: 80px 24px;
+  }
+  .reviews-track {
+    columns: 2;
+  }
+}
+@media (max-width: 700px) {
+  .reviews-section {
+    padding-block: 64px 8px;
+  }
+  .reviews-head {
+    display: block;
+    margin-bottom: 28px;
+  }
+  .reviews-head h2 {
+    font-size: 39px;
+  }
+  .reviews-summary {
+    align-items: flex-start;
+    margin-top: 24px;
+  }
+  /* Swipeable row on phones. */
+  .reviews-track {
+    columns: auto;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: -20px;
+    padding: 4px 20px 18px;
+    scrollbar-width: none;
+  }
+  .review-card {
+    flex: 0 0 84%;
+    margin-bottom: 0;
+    scroll-snap-align: center;
+    padding: 24px 22px 20px;
+  }
+  .review-card blockquote p {
+    font-size: 13px;
+  }
+}

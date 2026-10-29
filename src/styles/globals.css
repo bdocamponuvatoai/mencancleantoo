@@ -19,3 +19,7 @@
 @import "./pages/contact.css";
 @import "./pages/privacy.css";
 @import "./pages/plan.css";
+@import "./sections/reviews.css";
+/* Redesign layer: refinements, then motion. Kept last so it can build on everything above. */
+@import "./enhancements/polish.css";
+@import "./enhancements/motion.css";

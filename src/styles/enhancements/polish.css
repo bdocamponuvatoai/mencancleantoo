@@ -1,0 +1,296 @@
+/* Static refinements that apply with or without motion. */
+
+/* Decorative layers (hero glow) may extend past the page edge; never scroll sideways. */
+main {
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+:root {
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Header: firms up once the page scrolls; a thin orange line tracks progress. */
+.site-header {
+  transition:
+    box-shadow 0.3s,
+    background 0.3s;
+}
+html[data-scrolled] .site-header {
+  background: rgba(250, 248, 244, 0.985);
+  box-shadow: 0 10px 30px -22px #27312b59;
+}
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--orange);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--scroll-progress, 0));
+  pointer-events: none;
+}
+.site-header nav a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  background: var(--orange);
+  left: 0;
+  right: 0;
+  bottom: 9px;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.35s var(--ease-out);
+}
+.site-header nav a:hover::after,
+.site-header nav a[aria-current]::after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
+/* Soft warm glow behind the hero photograph. */
+.hero {
+  position: relative;
+  isolation: isolate;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 70%;
+  aspect-ratio: 1;
+  left: 34%;
+  top: 52%;
+  translate: 0 -50%;
+  background: radial-gradient(
+    closest-side,
+    #ffd9bf 0%,
+    #f6e9dd88 45%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+.hero-img {
+  box-shadow: 0 40px 70px -48px #5b3a2259;
+}
+
+/* Buttons and links: the arrow leans toward where it leads. */
+.button {
+  transition:
+    background 0.2s,
+    transform 0.25s var(--ease-out),
+    box-shadow 0.25s;
+}
+.button:hover {
+  box-shadow: 0 14px 26px -16px #a2461399;
+}
+.button.secondary:hover {
+  box-shadow: 0 14px 26px -18px #27312b40;
+}
+.button > span,
+.text-link > span,
+.extra-services strong > span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease-out);
+}
+.button:hover > span,
+.text-link:hover > span,
+.extra-services a:hover strong > span {
+  transform: translate(3px, -3px);
+}
+.text-link {
+  transition: color 0.2s;
+}
+
+/* Service cards lift; the arrow turns to face the page. */
+.service-card {
+  transition: transform 0.4s var(--ease-out);
+}
+.service-card:hover {
+  transform: translateY(-6px);
+}
+.card-photo {
+  transition: box-shadow 0.4s;
+}
+.service-card:hover .card-photo {
+  box-shadow: 0 30px 46px -32px #27312b73;
+}
+.card-photo img {
+  transition: transform 0.7s var(--ease-out);
+}
+.round-arrow {
+  transition:
+    background 0.25s,
+    transform 0.4s var(--ease-out);
+}
+.service-card:hover .round-arrow {
+  transform: rotate(45deg);
+}
+.extra-services > a {
+  transition: color 0.2s;
+}
+.extra-services > a:hover strong {
+  color: var(--orange-dark);
+}
+
+.commercial-image {
+  overflow: hidden;
+}
+.commercial-image img {
+  transition: transform 1.2s var(--ease-out);
+}
+.commercial-feature:hover .commercial-image img {
+  transform: scale(1.03);
+}
+
+.contact-card {
+  transition:
+    background 0.2s,
+    transform 0.35s var(--ease-out),
+    box-shadow 0.35s;
+}
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 40px -30px #27312b59;
+}
+.contact-icon {
+  transition: transform 0.35s var(--ease-out);
+}
+.contact-card:hover .contact-icon {
+  transform: translate(4px, -4px);
+}
+
+.faq-list summary {
+  transition: color 0.2s;
+}
+.faq-list summary:hover {
+  color: var(--orange-dark);
+}
+
+/* Steps: large outlined numerals. */
+.steps-grid .step-number {
+  display: block;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  font-size: 64px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--orange-dark);
+  margin-bottom: 22px;
+  transition: color 0.5s;
+}
+.steps-grid article:hover .step-number {
+  color: var(--peach);
+}
+@media (max-width: 700px) {
+  .steps-grid article {
+    grid-template-columns: 64px 1fr;
+  }
+  .steps-grid .step-number {
+    width: auto;
+    height: auto;
+    font-size: 44px;
+  }
+}
+
+/* Eyebrows on section openers get a short orange rule. */
+.section-heading .eyebrow,
+.reviews-head .eyebrow,
+.faq-section .eyebrow,
+.finder .eyebrow,
+.commercial-copy .eyebrow,
+.proof-grid .eyebrow,
+.detail-content .eyebrow,
+.about-copy .eyebrow,
+.location-section .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-heading .eyebrow::before,
+.reviews-head .eyebrow::before,
+.faq-section .eyebrow::before,
+.finder .eyebrow::before,
+.commercial-copy .eyebrow::before,
+.proof-grid .eyebrow::before,
+.detail-content .eyebrow::before,
+.about-copy .eyebrow::before,
+.location-section .eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 2px;
+  background: var(--orange);
+  flex-shrink: 0;
+}
+
+/* The difference: a dark band for contrast and rhythm. */
+.proof-section {
+  background: var(--ink);
+  color: #f3efe6;
+}
+.proof-section h2,
+.proof-section .eyebrow,
+.proof-section .text-link {
+  color: #faf8f4;
+}
+.proof-section em {
+  color: var(--orange);
+}
+.proof-grid p,
+.proof-note span {
+  color: #c9cdc4;
+}
+.proof-note .spark {
+  color: var(--orange);
+}
+.proof-section .text-link:hover {
+  color: var(--orange);
+}
+.proof-section figcaption {
+  color: #aeb4aa;
+}
+.proof-section :focus-visible,
+.proof-section .comparison:focus-within {
+  outline-color: var(--orange);
+}
+.comparison {
+  box-shadow: 0 40px 80px -40px #000c;
+}
+
+/* Footer statement. */
+.footer-statement {
+  font-size: clamp(46px, 8.6vw, 148px);
+  font-weight: 650;
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+  color: var(--ink);
+  margin: 0 auto 64px;
+}
+.footer-statement em {
+  display: block;
+  color: var(--orange-dark);
+}
+@media (max-width: 700px) {
+  .footer-statement {
+    margin-bottom: 40px;
+  }
+}
+.proof-section .before-tag,
+.proof-section .after-tag,
+.proof-section .comparison-line span {
+  color: var(--ink);
+}
