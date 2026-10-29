@@ -44,12 +44,29 @@ for (const file of await listFiles(OUT_DIR)) {
 const missing = [];
 let written = 0;
 for (const [variant, { original, width }] of wanted) {
-  const source = path.join(OUT_DIR, original);
-  const target = path.join(OUT_DIR, variant);
-  if (!(await exists(source))) {
+  // The file may sit at the referenced path or, on hosts that remap /_next/static/immutable/
+  // at deploy time, at the plain /_next/static/ path. Write the variant beside whichever exists.
+  const candidates = [
+    original,
+    original.replace("/_next/static/immutable/", "/_next/static/"),
+  ];
+  let found = null;
+  for (const c of candidates)
+    if (await exists(path.join(OUT_DIR, c))) {
+      found = c;
+      break;
+    }
+  if (!found) {
     missing.push(original);
     continue;
   }
+  const source = path.join(OUT_DIR, found);
+  const target = path.join(
+    OUT_DIR,
+    found === original
+      ? variant
+      : variant.replace("/_next/static/immutable/", "/_next/static/"),
+  );
   if (await exists(target)) continue;
   const image = sharp(source).resize({ width, withoutEnlargement: true });
   const ext = path.extname(original).toLowerCase();
